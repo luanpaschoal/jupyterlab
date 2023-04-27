@@ -1,6 +1,6 @@
 ## JupyterLab for Data Science and Knowledge Graphs
 
-[![Publish CPU images](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-cpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-cpu.yml) [![Publish GPU image](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-gpu.yml/badge.svg)](https://github.com/MaastrichtU-IDS/jupyterlab/actions/workflows/docker-gpu.yml)
+[![Publish Jupyter Latest image](https://github.com/luanpaschoal/jupyterlab/actions/workflows/docker-cpu.yml/badge.svg)](https://github.com/luanpaschoal/jupyterlab/actions/workflows/docker-cpu.yml)
 
 JupyterLab image with VisualStudio Code server integrated, based on the [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) scipy image, with additional packages and kernels installed for data science and knowledge graphs.
 
@@ -10,7 +10,7 @@ JupyterLab image with VisualStudio Code server integrated, based on the [jupyter
 
 List of features for the images available running on CPU
 
-### `ghcr.io/maastrichtu-ids/jupyterlab:latest`
+### `ghcr.io/luanpaschoal/jupyterlab:latest`
 
 This is the base image with useful interfaces and libraries for data science preinstalled:
 
@@ -25,26 +25,6 @@ This is the base image with useful interfaces and libraries for data science pre
 🧑‍💻 **ZSH** is used by default for the JupyterLab and VisualStudio Code terminals
 
 The following JupyterLab extensions are also installed: [jupyterlab-git](https://github.com/jupyterlab/jupyterlab-git), [jupyterlab-system-monitor](https://github.com/jtpio/jupyterlab-system-monitor), [jupyter_bokeh](https://github.com/bokeh/jupyter_bokeh), [plotly](https://github.com/plotly/plotly.py), [jupyterlab-spreadsheet](https://github.com/quigleyj97/jupyterlab-spreadsheet), [jupyterlab-drawio](https://github.com/QuantStack/jupyterlab-drawio).
-
-### `ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph`
-
-Extended from `ghcr.io/maastrichtu-ids/jupyterlab:latest`, it contains
-
-✨️ [**SPARQL kernel**](https://github.com/paulovn/sparql-kernel) to query RDF knowledge graphs
-
-✨️ **Apache Spark** and PySpark are installed for distributed data processing
-
-💎 **OpenRefine** is installed, and accessible from the JupyterLab Launcher
-
-🦀 [**Oxigraph**](https://github.com/oxigraph/oxigraph) SPARQL database
-
-⚡️ [**Blazegraph**](https://blazegraph.com/) SPARQL database
-
-☕️ Java `.jar` programs for knowledge graph processing are pre-downloaded in the `/opt` folder, such as RDF4J, Apache Jena, OWLAPI, RML mapper.
-
-### `ghcr.io/maastrichtu-ids/jupyterlab:r-notebook`
-
-📈 **R kernel**
 
 #### Automatically install your code and dependencies
 
@@ -135,146 +115,19 @@ With Python 3.8, conda integration, VisualStudio Code, Java and SPARQL kernels
 Build:
 
 ```bash
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab .
+docker build -t ghcr.io/luanpaschoal/jupyterlab .
 ```
 
 Run:
 
 ```bash
-docker run --rm -it --user root -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan/work ghcr.io/maastrichtu-ids/jupyterlab
+docker run --rm -it --user root -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/home/jovyan/work ghcr.io/luanpaschoal/jupyterlab
 ```
 
 Push:
 
 ```bash
-docker push ghcr.io/maastrichtu-ids/jupyterlab
-```
-
-#### JupyterLab for Knowledge graph
-
-With Oxigraph and Blazegraph SPARQL database, and additional python/java library for RDF processing:
-
-```bash
-docker build -f knowledge-graph/Dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph .
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:knowledge-graph
-```
-
-#### Python 2.7
-
-With a python2.7 kernel only (python3 not installed). Build and run (workdir is `/root`):
-
-```bash
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:python2.7 ./python2.7
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:python2.7
-```
-
-#### Ricopili
-
-Based on https://github.com/bruggerk/ricopili_docker. Build and run (workdir is `/root`):
-
-```bash
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:ricopili ./ricopili
-docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:ricopili
-```
-
-#### FSL on CPU
-
-Built with https://github.com/ReproNim/neurodocker. Build and run (workdir is `/root`):
-
-```bash
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl ./fsl
-docker run --rm -it -p 8888:8888 -v $(pwd)/data:/root -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl
-```
-
-## ⚡️JupyterLab on GPU
-
-To deploy JupyterLab on GPU we use the [official Nvidia images](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow), we defined the same [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) to install additional dependencies, such as JupyterLab and VisualStudio Code, with different images from Nvidia:
-
-🗜️ TensorFlow with [`nvcr.io/nvidia/tensorflow`](https://ngc.nvidia.com/catalog/containers/nvidia:tensorflow):
-* `ghcr.io/maastrichtu-ids/jupyterlab:tensorflow`
-
-🔥 PyTorch with [`nvcr.io/nvidia/pytorch`](https://ngc.nvidia.com/catalog/containers/pytorch):
-* `ghcr.io/maastrichtu-ids/jupyterlab:pytorch`
-
-👁️ CUDA with [`nvcr.io/nvidia/cuda`](https://ngc.nvidia.com/catalog/containers/cuda):
-* `ghcr.io/maastrichtu-ids/jupyterlab:cuda`
-
-
-Volumes should be mounted into the `/workspace/persistent` or `/workspace` folder.
-
-### 📝 Extend a GPU image
-
-The easiest way to build a custom image is to extend the [existing images](https://github.com/MaastrichtU-IDS/jupyterlab).
-
-Here is an example `Dockerfile` to extend [`ghcr.io/maastrichtu-ids/jupyterlab:tensorflow`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile) based on `nvcr.io/nvidia/tensorflow`:
-
-```dockerfile
-FROM ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-RUN apt-get update && \
-    apt-get install -y vim
-RUN pip install jupyter-tensorboard
-```
-
-### 📦 Build GPU images
-
-You will find here the commands to use to build our different GPU docker images, most of them are using the [`gpu.dockerfile`](https://github.com/MaastrichtU-IDS/jupyterlab/blob/main/gpu.dockerfile)
-
-#### Tensorflow on GPU
-
-Change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/tensorflow:21.11-tf2-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace/persistent ghcr.io/maastrichtu-ids/jupyterlab:tensorflow
-```
-
-#### CUDA on GPU
-
-Change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/cuda:11.4.2-devel-ubuntu20.04 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:tensorflow .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace/persistent ghcr.io/maastrichtu-ids/jupyterlab:cuda
-```
-
-#### PyTorch on GPU
-
-Change the `build-arg` and run from the root folder of this repository:
-
-```bash
-docker build --build-arg NVIDIA_IMAGE=nvcr.io/nvidia/pytorch:23.03-py3 -f gpu.dockerfile -t ghcr.io/maastrichtu-ids/jupyterlab:pytorch .
-```
-
-Run an image on http://localhost:8888
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password -v $(pwd)/data:/workspace/persistent ghcr.io/maastrichtu-ids/jupyterlab:pytorch
-```
-
-#### FSL on GPU
-
-This build use a different image, go to the `fsl-gpu` folder. And check the `README.md` for more details.
-
-Build:
-
-```bash
-docker build -t ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu ./fsl-gpu
-```
-
-Run (workdir is `/workspace`):
-
-```bash
-docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-ids/jupyterlab:fsl-gpu
+docker push ghcr.io/luanpaschoal/jupyterlab
 ```
 
 ## ☁️ Deploy on Kubernetes and OpenShift
@@ -282,8 +135,6 @@ docker run --rm -it -p 8888:8888 -e JUPYTER_TOKEN=password ghcr.io/maastrichtu-i
 This image is compatible with [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) and [OKD](https://www.okd.io) security constraints to **run as non root user**.
 
 We recommend to use this [Helm](https://helm.sh/) chart to deploy these JupyterLab images on Kubernetes or OpenShift: https://artifacthub.io/packages/helm/dsri-helm-charts/jupyterlab
-
-If you are working or studying at Maastricht University, you can easily deploy this notebook on the [Data Science Research Infrastructure (DSRI) 🌉](https://maastrichtu-ids.github.io/dsri-documentation/docs/deploy-jupyter)
 
 ## 🕊️ Contribute to this repository
 
@@ -310,6 +161,6 @@ If the built Docker image works well feel free to send a pull request to get you
 You can check the size of the image built in MB:
 
 ```bash
-expr $(docker image inspect ghcr.io/maastrichtu-ids/jupyterlab:latest --format='{{.Size}}') / 1000000
+expr $(docker image inspect ghcr.io/luanpaschoal/jupyterlab:latest --format='{{.Size}}') / 1000000
 ```
 
