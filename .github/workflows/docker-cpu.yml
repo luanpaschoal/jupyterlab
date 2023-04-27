@@ -1,4 +1,4 @@
-name: Publish CPU images
+name: Publish Jupyter Latest image
 env:
   LATEST_IMAGE: ghcr.io/luanpaschoal/jupyterlab:latest
 
