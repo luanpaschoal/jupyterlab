@@ -2,7 +2,7 @@ import os
 
 git_url = os.getenv('GIT_URL', None)
 git_name = os.getenv('GIT_NAME', 'Default user')
-git_email = os.getenv('GIT_EMAIL', 'default@maastrichtuniversity.nl')
+git_email = os.getenv('GIT_EMAIL', None)
 persistent_folder = os.getenv('PERSISTENT_FOLDER', None)
 workspace = os.getenv('WORKSPACE', None)
 
