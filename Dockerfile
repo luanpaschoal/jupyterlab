@@ -2,10 +2,10 @@ ARG PYTHON_VERSION=python-3.8.8
 ARG BASE_IMAGE=jupyter/scipy-notebook
 FROM $BASE_IMAGE:$PYTHON_VERSION
 
-LABEL org.opencontainers.image.source="https://github.com/MaastrichtU-IDS/jupyterlab"
+LABEL org.opencontainers.image.source="https://github.com/luanpaschoal/jupyterlab"
 
 
-ENV TZ=Europe/Amsterdam \
+ENV TZ=America/Sao_Paulo \
     JUPYTER_ENABLE_LAB=yes
     # GRANT_SUDO=yes
     # CHOWN_HOME=yes \
@@ -45,7 +45,8 @@ RUN pip install --upgrade pip && \
       jupyterlab_latex \
       jupyterlab-github \
       jupyterlab-system-monitor \
-      mitosheet3
+      mitosheet3 \
+      elyra
 
     ## Could also be interesting to install:
     #   jupyterlab_theme_solarized_dark \
