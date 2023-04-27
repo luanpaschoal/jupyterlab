@@ -46,7 +46,8 @@ RUN pip install --upgrade pip && \
       jupyterlab-github \
       jupyterlab-system-monitor \
       mitosheet3 \
-      elyra
+      elyra \
+      nbclassic
 
     ## Could also be interesting to install:
     #   jupyterlab_theme_solarized_dark \
